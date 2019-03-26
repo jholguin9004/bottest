@@ -1,0 +1,13 @@
+{
+    "name": "jholguin/bottest",
+    "description": "Permite obtener información desde fuirebase para dialogflow",
+    "authors": [
+        {
+            "name": "Jhonatan holguín",
+            "email": "jholguin9004@gmail.com"
+        }
+    ],
+    "require": {
+        "kreait/firebase-php": "^4.18"
+    }
+}

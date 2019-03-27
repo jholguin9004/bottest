@@ -89,7 +89,7 @@ class fifazo{
         $parts = $this->getVsData($names, $fifazo);
         //si no hay resultados
         if(empty($parts)){
-            $str = ($fifazo) ? implode(' y ', $names) . " no jugaron partidos en el último fifazo." :  implode(' y ', $names) . " no han jugado partidos aún.";
+            $str = ($fifazo) ? implode(' y ', $names) . " no jugaron partidos en el ultimo fifazo." :  implode(' y ', $names) . " no han jugado partidos aun.";
         }else{
             $table = $this->getTableByMatches($parts);
             $table = $this->sortTable($table);

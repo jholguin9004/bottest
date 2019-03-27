@@ -26,18 +26,18 @@ class fifazo{
     }
     
     /*
-     * Crea la informaci贸n
+     * Crea la informaci髇
      */
     private function generateData(){
         if(isset($this->par)){
             foreach($this->par as $pcode => $pdata){
-                //informaci贸n del fifazo
+                //informaci髇 del fifazo
                 $fif = $this->getNameBy('fifazo', $pdata['fifazo']);
                 $pdata = array_merge($pdata, $fif);
-                //informaci贸n de jugador 1
+                //informaci髇 de jugador 1
                 $p1 = $this->getNameBy('user', $pdata['p1']);
                 $pdata['p1_name'] = $p1['nick'];
-                //informaci贸n de jugador 2
+                //informaci髇 de jugador 2
                 $p2 = $this->getNameBy('user', $pdata['p2']);
                 $pdata['p2_name'] = $p2['nick'];
                 //ajusta la fecha
@@ -78,7 +78,7 @@ class fifazo{
     }
     
     
-    public function getVsInfo($name1, $name2, $last = false){
+    public function getVsInfo($names, $last = false){
         $str = '';
         $fifazo = false;
         if($last){
@@ -86,10 +86,10 @@ class fifazo{
             reset($revF);
             $fifazo = key($revF);
         }
-        $parts = $this->getVsData(array($name1, $name2), $fifazo);
+        $parts = $this->getVsData($names, $fifazo);
         //si no hay resultados
         if(empty($parts)){
-            $str = ($fifazo) ? "{$name1} y {$name2} no jugaron partidos en el 煤ltimo fifazo." :  "{$name1} y {$name2} no han jugado partidos a煤n.";
+            $str = ($fifazo) ? implode(' y ', $names) . " no jugaron partidos en el 鷏timo fifazo." :  implode(' y ', $names) . " no han jugado partidos a鷑.";
         }else{
             $table = $this->getTableByMatches($parts);
             $table = $this->sortTable($table);
@@ -171,9 +171,9 @@ class fifazo{
     private function getVsData($names, $fifazo){
         $parts = array();
         foreach($this->par as $id => $par){
-            //si consultan para el 煤ltimo fifazo, verifica que sea solo ese
+            //si consultan para el 鷏timo fifazo, verifica que sea solo ese
             if($fifazo && $par['fifazo'] != $fifazo) continue;
-            //verifia que se para los jugadores consultados 煤nicamente
+            //verifia que se para los jugadores consultados 鷑icamente
             if(in_array($par['p1_name'], $names) && in_array($par['p2_name'], $names)){
                 $parts[] = $par;
             }

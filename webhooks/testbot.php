@@ -13,8 +13,11 @@ if(intent_recibido('partidos.consulta.vs.ultimo')){
             $fifazo = new fifazo();
             $str = $fifazo->getVsInfo($params['personas'], false);
             enviar_texto($str);
-        }else{
-            enviar_texto('Se necesitan por lo menos 2 personas para jugar un partido, no?');
+        }elseif(count($params['personas']) == 1){
+            $fifazo = new fifazo();
+            $perso = reset($params['personas']);
+            $str = $fifazo->getPlayerInfo($perso, false);
+            enviar_texto($str);
         }
 	}
 }

@@ -77,6 +77,30 @@ class fifazo{
         }
     }
     
+    public function getPlayerInfo($name, $last = false){
+        $str = '';
+        $fifazo = false;
+        if($last){
+            $revF = array_reverse($this->fif);
+            reset($revF);
+            $fifazo = key($revF);
+        }
+        $parts = $this->getPlayerData($name, $fifazo);
+        //si no hay resultados
+        if(empty($parts)){
+            $str = ($fifazo) ? "{$name} no jugó partidos en el ultimo fifazo." :  "{$name} no han jugado partidos aun.";
+        }else{
+            $table = $this->getTableByMatches($parts);
+            $table = $this->sortTable($table);
+            foreach($table as $k => $row){
+                if($row['name'] != $name) unset($table[$k]);
+            }
+            $strTable = $this->getTableStr($table);
+            $strMatches = $this->getMatchesStr($parts);
+            $str = "Partidos{$this->break}{$strMatches}Tabla{$this->break}{$strTable}";
+        }
+        return $str;
+    }
     
     public function getVsInfo($names, $last = false){
         $str = '';
@@ -175,6 +199,19 @@ class fifazo{
             if($fifazo && $par['fifazo'] != $fifazo) continue;
             //verifia que se para los jugadores consultados únicamente
             if(in_array($par['p1_name'], $names) && in_array($par['p2_name'], $names)){
+                $parts[] = $par;
+            }
+        }
+        return $parts;
+    }
+    
+    private function getPlayerData($name, $fifazo){
+        $parts = array();
+        foreach($this->par as $id => $par){
+            //si consultan para el último fifazo, verifica que sea solo ese
+            if($fifazo && $par['fifazo'] != $fifazo) continue;
+            //verifia que se para el jugador consultado únicamente
+            if($par['p1_name'] == $name || $par['p2_name'] == $name){
                 $parts[] = $par;
             }
         }

@@ -3,7 +3,7 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
 class fifazo{
-    private $break = "\n\n";
+    private $break = "\n";
     private $par = null;
     private $jug = null;
     private $fif = null;

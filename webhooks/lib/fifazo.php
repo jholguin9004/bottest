@@ -120,7 +120,7 @@ class fifazo{
             $table = $this->sortTable($table);
             $strTable = $this->getTableStr($table);
             $strMatches = $this->getMatchesStr($parts);
-            $str = "{$strMatches}Tabla{$this->break}{$strTable}";
+            $str = "{$strMatches}*Tabla*{$this->break}{$strTable}";
         }
         return $str;
     }
@@ -130,7 +130,7 @@ class fifazo{
         $fifazo = '';
         foreach($table as $cell){
             if($cell['name'] != $fifazo){
-                $str.= "{$cell['name']}" .$this->break;
+                $str.= "*{$cell['name']}*" .$this->break;
                 $fifazo = $cell['name'];
             }
             $ronda = $this->rounds[$cell['ronda']];
@@ -141,7 +141,7 @@ class fifazo{
     
     private function getTableStr($table){
         $str = '';
-        $head = array('name','j','g','e','p','gf','gc','dg','ps');
+        $head = array('nombre','j','g','e','p','gf','gc','dg','ps');
         $str = implode(' | ', $head) . $this->break;
         foreach($table as $cell){
             $str.= implode(' | ', $cell) . $this->break;

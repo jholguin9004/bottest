@@ -98,7 +98,7 @@ class fifazo{
             }
             $strTable = $this->getTableStr($table);
             $strMatches = $this->getMatchesStr($parts);
-            $str = "{$this->break}{$strMatches}Tabla{$this->break}{$strTable}";
+            $str = "{$strMatches}*Tabla*{$this->break}{$strTable}";
         }
         return $str;
     }

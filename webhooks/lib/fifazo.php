@@ -10,7 +10,8 @@ class fifazo{
     private $months = array('Enero' => '01','Febrero' => '02','Marzo' => '03','Abril' => '04','Mayo' => '05','Junio' => '06','Julio' => '07','Agosto' => '08','Septiembre' => '09','Octubre' => '10','Noviembre' => '11','Diciembre' => '12');
     private $rounds = array(0 => 'Grupos', 1 => 'Octavos', 2 => 'Cuartos', 3 => 'Semis', 5 => 'Final');
     
-    public function __construct() {
+    public function __construct($break = "\n"){
+        $this->break = $break;
         $serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/fifazo-6f4bc-firebase-adminsdk-nvzly-563d004083.json');
         $firebase = (new Factory)
            ->withServiceAccount($serviceAccount)
@@ -97,7 +98,7 @@ class fifazo{
             }
             $strTable = $this->getTableStr($table);
             $strMatches = $this->getMatchesStr($parts);
-            $str = "Partidos{$this->break}{$strMatches}Tabla{$this->break}{$strTable}";
+            $str = "{$this->break}{$strMatches}Tabla{$this->break}{$strTable}";
         }
         return $str;
     }
@@ -119,16 +120,21 @@ class fifazo{
             $table = $this->sortTable($table);
             $strTable = $this->getTableStr($table);
             $strMatches = $this->getMatchesStr($parts);
-            $str = "Partidos{$this->break}{$strMatches}Tabla{$this->break}{$strTable}";
+            $str = "{$strMatches}Tabla{$this->break}{$strTable}";
         }
         return $str;
     }
     
     private function getMatchesStr($table){
         $str = '';
+        $fifazo = '';
         foreach($table as $cell){
+            if($cell['name'] != $fifazo){
+                $str.= "{$cell['name']}" .$this->break;
+                $fifazo = $cell['name'];
+            }
             $ronda = $this->rounds[$cell['ronda']];
-            $str.= "{$cell['p1_name']} {$cell['p1r']} - {$cell['p2r']} {$cell['p2_name']} | {$cell['name']}, {$ronda}" . $this->break;
+            $str.= "{$cell['p1_name']} {$cell['p1r']}-{$cell['p2r']} {$cell['p2_name']}, {$ronda}" . $this->break;
         }
         return $str;
     }

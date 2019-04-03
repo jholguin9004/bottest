@@ -77,54 +77,7 @@ class fifazo{
             return $this->jug[$id];
         }
     }
-    
-    public function getPlayerInfo($name, $last = false){
-        $str = '';
-        $fifazo = false;
-        if($last){
-            $revF = array_reverse($this->fif);
-            reset($revF);
-            $fifazo = key($revF);
-        }
-        $parts = $this->getPlayerData($name, $fifazo);
-        //si no hay resultados
-        if(empty($parts)){
-            $str = ($fifazo) ? "{$name} no jugó partidos en el ultimo fifazo." :  "{$name} no han jugado partidos aun.";
-        }else{
-            $table = $this->getTableByMatches($parts);
-            $table = $this->sortTable($table);
-            foreach($table as $k => $row){
-                if($row['name'] != $name) unset($table[$k]);
-            }
-            $strTable = $this->getTableStr($table);
-            $strMatches = $this->getMatchesStr($parts);
-            $str = "{$strMatches}*Tabla*{$this->break}{$strTable}";
-        }
-        return $str;
-    }
-    
-    public function getVsInfo($names, $last = false){
-        $str = '';
-        $fifazo = false;
-        if($last){
-            $revF = array_reverse($this->fif);
-            reset($revF);
-            $fifazo = key($revF);
-        }
-        $parts = $this->getVsData($names, $fifazo);
-        //si no hay resultados
-        if(empty($parts)){
-            $str = ($fifazo) ? implode(' y ', $names) . " no jugaron partidos en el ultimo fifazo." :  implode(' y ', $names) . " no han jugado partidos aun.";
-        }else{
-            $table = $this->getTableByMatches($parts);
-            $table = $this->sortTable($table);
-            $strTable = $this->getTableStr($table);
-            $strMatches = $this->getMatchesStr($parts);
-            $str = "{$strMatches}*Tabla*{$this->break}{$strTable}";
-        }
-        return $str;
-    }
-    
+        
     private function getMatchesStr($table){
         $str = '';
         $fifazo = '';
@@ -223,4 +176,57 @@ class fifazo{
         }
         return $parts;
     }
+
+    /*
+     * Funciones públicas
+     */
+    public function getPlayerInfo($name, $last = false){
+        $str = '';
+        $fifazo = false;
+        if($last){
+            $revF = array_reverse($this->fif);
+            reset($revF);
+            $fifazo = key($revF);
+        }
+        $parts = $this->getPlayerData($name, $fifazo);
+        //si no hay resultados
+        if(empty($parts)){
+            $str = ($fifazo) ? "{$name} no jugó partidos en el ultimo fifazo." :  "{$name} no han jugado partidos aun.";
+        }else{
+            $table = $this->getTableByMatches($parts);
+            $table = $this->sortTable($table);
+            foreach($table as $k => $row){
+                if($row['name'] != $name) unset($table[$k]);
+            }
+            $strTable = $this->getTableStr($table);
+            $strMatches = $this->getMatchesStr($parts);
+            $str = "{$strMatches}*Tabla*{$this->break}{$strTable}";
+        }
+        return $str;
+    }
+    
+    public function getVsInfo($names, $last = false){
+        $str = '';
+        $fifazo = false;
+        if($last){
+            $revF = array_reverse($this->fif);
+            reset($revF);
+            $fifazo = key($revF);
+        }
+        $parts = $this->getVsData($names, $fifazo);
+        //si no hay resultados
+        if(empty($parts)){
+            $str = ($fifazo) ? implode(' y ', $names) . " no jugaron partidos en el ultimo fifazo." :  implode(' y ', $names) . " no han jugado partidos aun.";
+        }else{
+            $table = $this->getTableByMatches($parts);
+            $table = $this->sortTable($table);
+            $strTable = $this->getTableStr($table);
+            $strMatches = $this->getMatchesStr($parts);
+            $str = "{$strMatches}*Tabla*{$this->break}{$strTable}";
+        }
+        return $str;
+    }
+    
+    
+    
 }
